@@ -1,0 +1,29 @@
+{
+  "name": "youtify",
+  "version": "0.0.1",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha test/keywords-test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://mallendeo@bitbucket.org/mallendeo/youtify.git"
+  },
+  "author": "@mallendeo",
+  "devDependencies": {
+    "browserify": "~11.2.0",
+    "gulp": "~3.9.0",
+    "gulp-rename": "~1.2.2",
+    "gulp-stylus": "~2.1.0",
+    "gulp-uglify": "^1.4.1",
+    "gulp-util": "^3.0.6",
+    "gulp-watch": "~4.3.5",
+    "mocha": "~2.3.3",
+    "should": "~7.1.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "~1.1.0"
+  },
+  "dependencies": {
+    "bluebird": "~2.10.2",
+    "superagent": "~1.4.0"
+  }
+}
