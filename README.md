@@ -1,9 +1,9 @@
 # Youtify
 Open current YouTube song video in Spotify
 
-## Compile
+## Build
 
     git clone https://github.com/mallendeo/Youtify.git
     cd Youtify
     npm install
-    gulp dist --production
+    gulp build --dist

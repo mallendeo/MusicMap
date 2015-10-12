@@ -12,7 +12,7 @@ gulp.task('default', ['browserify', 'stylus'])
 gulp.task('stylus', function () {
   gulp.src('./src/youtify.styl')
     .pipe(stylus({
-        compress: gutil.env.production
+        compress: gutil.env.dist
       }))
     .pipe(gulp.dest('./dist'))
 })
@@ -26,7 +26,7 @@ gulp.task('browserify', function() {
   return b.bundle()
     .pipe(source('youtify.js'))
     .pipe(buffer())
-    .pipe(gutil.env.production ? uglify() : gutil.noop())
+    .pipe(gutil.env.dist ? uglify() : gutil.noop())
     .pipe(gulp.dest('./dist'))
 })
 
@@ -39,10 +39,10 @@ gulp.task('copy-files', function() {
     .pipe(gulp.dest('./dist'))
 })
 
-gulp.task('watch', ['dist'], function() {
+gulp.task('watch', ['build'], function() {
   gulp.watch(['*', 'src/*'], ['copy-files'])
   gulp.watch('src/**/*.js', ['browserify'])
   gulp.watch('src/**/*.styl', ['stylus'])
 })
 
-gulp.task('dist', ['copy-files', 'browserify', 'stylus'])
+gulp.task('build', ['copy-files', 'browserify', 'stylus'])
