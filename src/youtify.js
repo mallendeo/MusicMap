@@ -28,7 +28,29 @@ Youtify.prototype.search = function (text, type) {
   })
 }
 
-Youtify.prototype.getKeywords = function(videoTitle) {
+Youtify.prototype.guessYouTubeMusicVideo = function (description) {
+  return description.match(/soundcloud|spotify|itunes|bandcamp/igm)
+}
+
+Youtify.prototype.checkIfMix = function (description) {
+  var regex = /track\s?list/igm
+  return description.match(regex) ? true : false
+}
+
+Youtify.prototype.getSpotifyUrlFromDescription = function (description) {
+  var elems = description.children
+  var spotifyUrl = false
+  for (var i = 0; i < elems.length; i++) {
+    var elem = elems[i]
+    var isLink = elem.tagName === 'A'
+    if (isLink && elem.textContent.match(/\/\/.*?spoti/i)) {
+      spotifyUrl = elem.textContent
+    }
+  }
+  return spotifyUrl
+}
+
+Youtify.prototype.getKeywords = function (videoTitle) {
 
   /**
    * FIXME use correct regex instead

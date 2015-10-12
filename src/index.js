@@ -1,5 +1,3 @@
-var request = require('superagent')
-var Promise = require('bluebird')
 var Youtify = require('./youtify')
 var env     = require('./.env.json')
 
@@ -39,7 +37,22 @@ var loadInfo = function () {
     document.querySelector('.video-stream').pause()
   })
 
-  if (!isMusicCategory) {
+  var descriptionElem = document.querySelector('#eow-description')
+  var description = descriptionElem.textContent
+  var guessYouTubeMusicVideo = youtify.guessYouTubeMusicVideo(description)
+
+  var isMix = youtify.checkIfMix(description)
+  var spotifyUrl = youtify.getSpotifyUrlFromDescription(descriptionElem)
+
+  if (isMix && spotifyUrl) {
+    button.textContent = 'Open the tracklist on Spotify'
+    button.classList.remove('disabled')
+    button.href = spotifyUrl
+    button.target = '_blank'
+    return
+  }
+
+  if (!isMusicCategory && !guessYouTubeMusicVideo) {
     button.textContent = 'Not in music category'
     return
   }
