@@ -1,6 +1,6 @@
 var assert   = require('assert')
 var keywords = require('./keywords.json')
-var Youtify  = require('../lib/youtify')
+var Youtify  = require('../src/youtify')
 var should   = require('should')
 
 var youtify = new Youtify()

@@ -33,15 +33,14 @@ gulp.task('browserify', function() {
 gulp.task('copy-files', function() {
   return gulp.src([
       'LICENSE',
-      'manifest.json',
-      'contributors.txt',
-      'inject.js'
+      'src/manifest.json',
+      'src/inject.js'
     ])
     .pipe(gulp.dest('./dist'))
 })
 
 gulp.task('watch', ['dist'], function() {
-  gulp.watch('*', ['copy-files'])
+  gulp.watch(['*', 'src/*'], ['copy-files'])
   gulp.watch('src/**/*.js', ['browserify'])
   gulp.watch('src/**/*.styl', ['stylus'])
 })
