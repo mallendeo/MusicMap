@@ -48,7 +48,7 @@ Youtify.prototype.getKeywords = function(videoTitle) {
     // remove all brackets content and special characters
     .replace(/\w\.{2,4}/ig, ' ')
     .replace(/[\[\(].*?[\]\)]/ig, ' ')
-    .replace(/[.,"'!\&®]+?/g, '')
+    .replace(/[.,:"'!\&®]+?/g, '')
     .replace(/\-/g, ' ')
 
     // remove all single characters but 'I'
