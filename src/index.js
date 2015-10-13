@@ -19,7 +19,8 @@ var loadInfo = function () {
   if (!document.location.href.match(ytRegex)) return
 
   var videoTitle = document.querySelector('#eow-title').textContent
-  videoTitle = youtify.getKeywords(videoTitle)
+  var songInfo = youtify.getInfoFromTitle(videoTitle)
+  videoTitle = [songInfo.artist, songInfo.title, songInfo.remix].join(' ')
 
   var categoryElems = [].slice.call(document.querySelectorAll('.watch-info-tag-list li a'))
   var isMusicCategory = categoryElems.some(function(elem) {

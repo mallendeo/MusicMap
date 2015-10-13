@@ -50,43 +50,78 @@ Youtify.prototype.getSpotifyUrlFromDescription = function (description) {
   return spotifyUrl
 }
 
-Youtify.prototype.getKeywords = function (videoTitle) {
+Youtify.prototype.getInfoFromTitle = function (videoTitle) {
 
   /**
    * FIXME use correct regex instead
    */
 
-  // include remix/mix/version in the search terms
+  // Include remix/mix/version in the search terms
   var remixRegex = /[[(]([^[()\]]*?(?:mix|version)[^[()\]]*?)[\])]/ig
   var remix = remixRegex.exec(videoTitle)
-  remix = remix && remix[0] ? remix[0] : ''
+  remix = remix && remix[1] ? remix[1] : ''
 
   if (remix.match(/.*?of{1,2}icial.*?/ig)) {
     remix = ''
   }
 
-  return videoTitle
+  var keywords = videoTitle
 
-    // remove all brackets content and special characters
-    .replace(/\w\.{2,4}/ig, ' ')
-    .replace(/[\[\(].*?[\]\)]/ig, ' ')
-    .replace(/[.,:"'!\&®]+?/g, '')
-    .replace(/\-/g, ' ')
+    // Remove all brackets content and special characters
+    .replace(/\w\.{2,4}/ig, '  ')
+    .replace(/[\[\(].*?[\]\)]/ig, '  ')
+    .replace(/[:"'_!\&®]+?/g, '  ')
+    .replace(/[.,]+?/g, '')
 
-    // remove all single characters but 'I'
-    .replace(/\s+?(?!I).\s+?/ig, ' ')
+    // Remove all single characters but 'I'
+    // and hyphens
+    .replace(/\s(?![I-\s]).\s/ig, ' ')
     .replace(/\s+\w\/\w\s?/ig, ' ')
+    .replace(/(\w)-(\w)/, '$1 $2')
 
-    // most reggaeton/pop videos :/
+    // Most reggaeton/pop videos :/
     .replace(/\s+?(music\s+?video|20\d{2}|audio\s+?original|reggaeton)\s*?/ig, ' ')
 
-    // remove some common words
+    // Remove some common words
     .replace(/\s+?(ft|feat(uring)?|hd|of{1,2}icial\w*|exclusiv[eo]|v[ií]deo\w*)\s*?/ig, ' ')
     .trim()
     .split(/\s+/g)
-    .concat(remix)
-    .join(' ')
-    .trim()
+
+  var gotHyphen = false
+
+  keywords.forEach(function(keyword, i){
+    if (keyword === '-') {
+      if (gotHyphen) {
+        keywords.splice(i, 1)
+      }
+      gotHyphen = true
+    }
+  })
+
+  var splitKeywords = keywords.join(' ').split(/\s-(.+)?/)
+  splitKeywords = splitKeywords.map(function(s) { return s.trim() })
+
+  var songInfo = {
+    artist: splitKeywords[0] || '',
+    title: splitKeywords[1] || '',
+    remix: ''
+  }
+
+  // Check if artist is in both, the song title
+  // and the remix match, and if not merge the remix
+  // with the search terms.
+  // Example here https://www.youtube.com/watch?v=OOevVQwQ-LM
+  var remixArtist = remix.split(/\s+/g)
+  remixArtist = remixArtist[0] ? remixArtist[0] : remixArtist
+
+  var removeRemix = songInfo.artist.split(/\s+/g).some(function(keyword) {
+    return remixArtist === keyword
+  })
+
+  if (removeRemix) return songInfo
+
+  songInfo.remix = remix
+  return songInfo
 }
 
 Youtify.prototype.getToken = function (token, refresh) {
