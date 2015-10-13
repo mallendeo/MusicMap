@@ -70,13 +70,13 @@ Youtify.prototype.getInfoFromTitle = function (videoTitle) {
     // Remove all brackets content and special characters
     .replace(/\w\.{2,4}/ig, '  ')
     .replace(/[\[\(].*?[\]\)]/ig, '  ')
-    .replace(/[:"'_!\&®]+?/g, '  ')
-    .replace(/[.,]+?/g, '')
+    .replace(/[:_!\&®]+?/g, '  ')
+    .replace(/[.,'"]+?/g, '')
 
     // Remove all single characters but 'I'
     // and hyphens
-    .replace(/\s(?![I-\s]).\s/ig, ' ')
-    .replace(/\s+\w\/\w\s?/ig, ' ')
+    .replace(/\s(?![I-\s]).\s/ig, '  ')
+    .replace(/\s+\w\/\w\s?/ig, '  ')
     .replace(/(\w)-(\w)/, '$1 $2')
 
     // Most reggaeton/pop videos :/

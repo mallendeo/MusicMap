@@ -10,7 +10,6 @@ describe('Keywords', function() {
     it('should match the title keywords', function() {
       for (var i = 0; i < keywords.length; i++) {
         var songInfo = youtify.getInfoFromTitle(keywords[i].title)
-        console.log(songInfo)
         songInfo = [songInfo.artist, songInfo.title, songInfo.remix].join(' ').trim()
         songInfo.should.equal(keywords[i].keywords)
       }
