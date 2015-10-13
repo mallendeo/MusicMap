@@ -73,8 +73,7 @@ Youtify.prototype.getInfoFromTitle = function (videoTitle) {
     .replace(/[:_!\&®]+?/g, '  ')
     .replace(/[.,'"]+?/g, '')
 
-    // Remove all single characters but 'I'
-    // and hyphens
+    // Remove all single characters but 'I' and hyphens
     .replace(/\s(?![I-\s]).\s/ig, '  ')
     .replace(/\s+\w\/\w\s?/ig, '  ')
     .replace(/(\w)-(\w)/, '$1 $2')

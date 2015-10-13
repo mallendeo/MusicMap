@@ -1,6 +1,6 @@
 {
   "name": "youtify",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha test/keywords-test.js"
   },
