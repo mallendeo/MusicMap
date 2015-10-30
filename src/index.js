@@ -9,6 +9,17 @@ if (hostname === 'open.spotify.com') {
   return
 }
 
+// Google Analytics
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', env.G_ANALYTICS_CODE, 'auto');
+ga('set', 'checkProtocolTask', function(){});
+ga('require', 'displayfeatures');
+ga('send', 'pageview');
+
 var youtify = new Youtify({
   redirectUri: env.REDIRECT_URI,
   clientId: env.CLIENT_ID,
@@ -20,6 +31,9 @@ var loadInfo = function () {
 
   var videoTitle = document.querySelector('#eow-title').textContent
   var songInfo = youtify.getInfoFromTitle(videoTitle)
+  //var spotifySVG = '<svg class="icon icon-spotify"><use xlink:href="#icon-spotify"></use></svg>'
+  var spotifySVG = ''
+
   videoTitle = [songInfo.artist, songInfo.title, songInfo.remix].join(' ')
 
   var categoryElems = [].slice.call(document.querySelectorAll('.watch-info-tag-list li a'))
@@ -31,22 +45,22 @@ var loadInfo = function () {
   var button = document.createElement('a')
   button.classList.add('youtify-open-button')
   button.classList.add('disabled')
-  button.textContent = 'Loading...'
+  button.innerHTML = spotifySVG + 'Loading...'
   subsButton.parentNode.insertBefore(button, subsButton.nextSibling)
 
 
   var descriptionElem = document.querySelector('#eow-description')
-  var description = descriptionElem.textContent
+  var description = descriptionElem.innerHTML
   var guessYouTubeMusicVideo = youtify.guessYouTubeMusicVideo(description)
 
   var isMix = youtify.checkIfMix(description)
   var spotifyUrl = youtify.getSpotifyUrlFromDescription(descriptionElem)
 
   if (isMix) {
-    button.textContent = 'Mix not available in Spotify'
+    button.innerHTML = spotifySVG + spotifySVG + 'Mix not available in Spotify'
     if (!spotifyUrl) return
 
-    button.textContent = 'Open the tracklist on Spotify'
+    button.innerHTML = spotifySVG + 'Open the tracklist on Spotify'
     button.classList.remove('disabled')
     button.href = spotifyUrl
     button.target = '_blank'
@@ -54,7 +68,7 @@ var loadInfo = function () {
   }
 
   if (!isMusicCategory && !guessYouTubeMusicVideo) {
-    button.textContent = 'Not in music category'
+    button.innerHTML = spotifySVG + 'Not in music category'
     return
   }
 
@@ -62,15 +76,25 @@ var loadInfo = function () {
     if (data.tracks.items && data.tracks.items[0]) {
       button.classList.remove('disabled')
       button.href = data.tracks.items[0].uri
-      button.textContent = 'Open in Spotify'
+      button.innerHTML = spotifySVG + 'Open in Spotify'
 
       button.addEventListener('click', function(){
         document.querySelector('.video-stream').pause()
+        sendButtonClickGa(data.tracks.items[0].uri)
       })
     } else {
-      button.textContent = 'Not available in Spotify'
+      button.innerHTML = spotifySVG + 'Not available in Spotify'
     }
   })
+}
+
+function sendButtonClickGa(spotifyUri) {
+  ga('send', {
+    'hitType': 'event',
+    'eventCategory': 'button-clicked',
+    'eventAction': 'click',
+    'eventLabel': document.location.href
+  });
 }
 
 loadInfo()

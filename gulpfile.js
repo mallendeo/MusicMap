@@ -16,7 +16,7 @@ gulp.task('clean', function () {
   ])
 })
 
-gulp.task('default', ['clean:mobile']);
+gulp.task('default', ['build']);
 
 gulp.task('stylus', function () {
   gulp.src('src/youtify.styl')
