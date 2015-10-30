@@ -56,10 +56,12 @@ Youtify.prototype.getInfoFromTitle = function (videoTitle) {
    * FIXME use correct regex instead
    */
 
-  // Include remix/mix/version in the search terms
+  // Include remix/mix/version in the search terms and
+  // remove common words that may interfere with search results
   var remixRegex = /[[(]([^[()\]]*?(?:mix|version)[^[()\]]*?)[\])]/ig
   var remix = remixRegex.exec(videoTitle)
   remix = remix && remix[1] ? remix[1] : ''
+  remix = remix.replace(/\s((?:dub|drum|chill)step|trap)\s/i, ' ')
 
   if (remix.match(/.*?of{1,2}icial.*?/ig)) {
     remix = ''
@@ -77,7 +79,7 @@ Youtify.prototype.getInfoFromTitle = function (videoTitle) {
     .replace(/\s(?![I-\s]).\s/ig, '  ')
     .replace(/\s+\w\/\w\s?/ig, '  ')
     .replace(/(\w)-(\w)/, '$1 $2')
-
+    
     // Most reggaeton/pop videos :/
     .replace(/\s+?(music\s+?video|20\d{2}|audio\s+?original|reggaeton)\s*?/ig, ' ')
 

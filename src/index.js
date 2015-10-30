@@ -34,9 +34,6 @@ var loadInfo = function () {
   button.textContent = 'Loading...'
   subsButton.parentNode.insertBefore(button, subsButton.nextSibling)
 
-  button.addEventListener('click', function(){
-    document.querySelector('.video-stream').pause()
-  })
 
   var descriptionElem = document.querySelector('#eow-description')
   var description = descriptionElem.textContent
@@ -45,7 +42,10 @@ var loadInfo = function () {
   var isMix = youtify.checkIfMix(description)
   var spotifyUrl = youtify.getSpotifyUrlFromDescription(descriptionElem)
 
-  if (isMix && spotifyUrl) {
+  if (isMix) {
+    button.textContent = 'Mix not available in Spotify'
+    if (!spotifyUrl) return
+
     button.textContent = 'Open the tracklist on Spotify'
     button.classList.remove('disabled')
     button.href = spotifyUrl
@@ -63,6 +63,10 @@ var loadInfo = function () {
       button.classList.remove('disabled')
       button.href = data.tracks.items[0].uri
       button.textContent = 'Open in Spotify'
+
+      button.addEventListener('click', function(){
+        document.querySelector('.video-stream').pause()
+      })
     } else {
       button.textContent = 'Not available in Spotify'
     }
