@@ -1,8 +1,8 @@
 {
   "name": "youtify",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test/keywords-test.js"
+    "test": "./node_modules/mocha/bin/mocha test/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -10,7 +10,7 @@
   },
   "author": "@mallendeo",
   "devDependencies": {
-    "browserify": "~11.2.0",
+    "browserify": "^12.0.1",
     "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-rename": "~1.2.2",
@@ -24,7 +24,7 @@
     "vinyl-source-stream": "~1.1.0"
   },
   "dependencies": {
-    "bluebird": "~2.10.2",
+    "bluebird": "^3.0.2",
     "superagent": "~1.4.0"
   }
 }

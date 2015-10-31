@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Youtify",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "Open the current YouTube song in Spotify",
   "author": "mallendeo",
   "icons": {

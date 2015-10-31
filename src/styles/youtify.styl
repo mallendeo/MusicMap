@@ -5,13 +5,20 @@ body.youtify-player
 
 .youtify-open-button
   margin-left 1em
-  padding .4em .5em
+  padding .3em .5em
+  box-sizing border-box
+  width 65.953px
+  height 22px
+  font-size .9em
   background spotify_green
   color #fff
-  border-radius .2rem
-  text-decoration none
+  border-radius 2px
+  &, &:focus, &:hover
+    text-decoration none
+    border 1px solid lightness(spotify_green, 40%)
   &.disabled, &.disabled:hover
     cursor default
+    border-color lightness(#ccc, 70%)
     background #ccc
   &:hover
     background lightness(spotify_green, 50%)
