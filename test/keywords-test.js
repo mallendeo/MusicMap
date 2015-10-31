@@ -1,18 +1,19 @@
-var assert   = require('assert')
-var keywords = require('./keywords.json')
-var Youtify  = require('../src/youtify')
-var should   = require('should')
+'use strict';
+let assert   = require('assert');
+let keywords = require('./keywords.json');
+let Youtify  = require('../src/lib/youtify');
+let should   = require('should');
 
-var youtify = new Youtify()
+let youtify = new Youtify();
 
-describe('Keywords', function() {
-  describe('check keywords', function() {
-    it('should match the title keywords', function() {
-      for (var i = 0; i < keywords.length; i++) {
-        var songInfo = youtify.getInfoFromTitle(keywords[i].title)
-        songInfo = [songInfo.artist, songInfo.title, songInfo.remix].join(' ').trim()
-        songInfo.should.equal(keywords[i].keywords)
+describe('Keywords', () => {
+  describe('check keywords', () => {
+    it('should match the title keywords', () => {
+      for (let i = 0; i < keywords.length; i++) {
+        let songInfo = youtify.getInfoFromTitle(keywords[i].title);
+        songInfo = [songInfo.artist, songInfo.title, songInfo.remix].join(' ').trim();
+        songInfo.should.equal(keywords[i].keywords);
       }
-    })
-  })
-})
+    });
+  });
+});
