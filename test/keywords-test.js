@@ -1,8 +1,7 @@
-'use strict';
-let assert   = require('assert');
-let keywords = require('./keywords.json');
-let Youtify  = require('../src/lib/youtify');
-let should   = require('should');
+import assert      from 'assert';
+import keywords    from './keywords.json';
+import { Youtify } from '../src/lib/youtify';
+import should      from 'should';
 
 let youtify = new Youtify();
 
