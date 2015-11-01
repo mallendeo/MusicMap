@@ -1,5 +1,5 @@
-import { YoutifyHandler } from './lib/youtify-handler';
-import { ytRegex }        from './lib/util';
+import YoutifyHandler from './lib/youtify-handler';
+import { ytRegex }    from './lib/util';
 
 new YoutifyHandler();
 

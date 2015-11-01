@@ -1,11 +1,15 @@
-import { Youtify } from './youtify';
-import { ytRegex } from './util';
-import env         from '../.env.json';
+import Youtify   from './youtify';
+import * as util from './util';
+import env       from '../.env.json';
+import Database  from './database';
 
 let hostname = document.location.hostname;
 
-export class YoutifyHandler {
-  constructor() {
+export default class YoutifyHandler {
+
+  constructor () {
+    this.db = new Database();
+
     this.youtify = new Youtify({
       redirectUri: env.REDIRECT_URI,
       clientId: env.CLIENT_ID,
@@ -21,7 +25,7 @@ export class YoutifyHandler {
     this.loadYoutify();
   }
 
-  loadGoogleAnalytics() {
+  loadGoogleAnalytics () {
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
@@ -32,21 +36,22 @@ export class YoutifyHandler {
     ga('require', 'displayfeatures');
   }
 
-  loadYoutify() {
-    if (!document.location.href.match(ytRegex)) return;
+  loadYoutify () {
+    if (!document.location.href.match(util.ytRegex)) return;
     ga('send', 'pageview');
 
     let videoTitle = document.querySelector('#eow-title').textContent,
         songInfo = this.youtify.getInfoFromTitle(videoTitle),
         categoryElems = [].slice.call(document.querySelectorAll('.watch-info-tag-list li a')),
-        isMusicCategory = categoryElems.some(elem => {
-          return elem.getAttribute('data-ytid') === 'UC-9-kyTW8ZkZNDHQJ6FgpwQ';
-        }),
         descriptionElem = document.querySelector('#eow-description'),
         description = descriptionElem.innerHTML,
         guessYouTubeMusicVideo = this.youtify.guessYouTubeMusicVideo(description),
         button = this.createButton(['youtify-open-button','disabled']),
         spotifyUrl = this.youtify.getSpotifyUrlFromDescription(descriptionElem);
+
+    let isMusicCategory = categoryElems.some(elem => {
+      return elem.getAttribute('data-ytid') === 'UC-9-kyTW8ZkZNDHQJ6FgpwQ';
+    });
 
     videoTitle = [songInfo.artist, songInfo.title, songInfo.remix].join(' ');
 
@@ -68,12 +73,13 @@ export class YoutifyHandler {
       return;
     }
 
-    this.youtify.search(videoTitle, 'track').then(data => {
+    this.youtify.search(videoTitle, 'track', util.getCountryCode()).then(data => {
       if (data.tracks.items && data.tracks.items[0]) {
         button.classList.remove('disabled');
         button.href = data.tracks.items[0].uri;
         this.updateButton(button, 'Open in Spotify');
-
+        button.setAttribute('title', videoTitle);
+        console.log(data);
         button.addEventListener('click', () => {
           document.querySelector('.video-stream').pause();
           this.sendButtonClickGa(data.tracks.items[0].uri);
@@ -84,7 +90,7 @@ export class YoutifyHandler {
     });
   }
 
-  createButton(classList, text, appendTo) {
+  createButton (classList, text, appendTo) {
     appendTo = appendTo || document.getElementById('watch7-subscription-container');
 
     let button = document.createElement('a');
@@ -98,12 +104,12 @@ export class YoutifyHandler {
     return button;
   }
 
-  updateButton(button, text) {
+  updateButton (button, text) {
     button.innerHTML = text;
     return button;
   }
 
-  sendButtonClickGa(button, text) {
+  sendButtonClickGa (button, text) {
     ga('send', {
       'hitType': 'event',
       'eventCategory': 'button-clicked',

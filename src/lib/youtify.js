@@ -2,17 +2,18 @@ import request from 'superagent';
 
 const SPOTIFY_URI = 'https://api.spotify.com/v1';
 
-export class Youtify {
-  constructor (opts = {}) {
+export default class Youtify {
+  constructor (opts) {
     this.clientId = opts.clientId || '';
     this.clientSecret = opts.clientSecret || '';
     this.redirectUri = opts.redirectUri || '';
     this.scopes = opts.scopes || '';
   }
 
-  search (text, type) {
+  search (text, type, countryCode) {
     return new Promise((resolve, reject) => {
       let url = SPOTIFY_URI + '/search?';
+          url += countryCode ? '&market=' + countryCode : '';
           url += '&q=' + encodeURIComponent(text);
           url += type ? '&type=' + type : '';
 
