@@ -1,17 +1,17 @@
-'use strict';
-let browserify = require('browserify');
-let buffer     = require('vinyl-buffer');
-let del        = require('del');
-let gulp       = require('gulp');
-let gutil      = require('gulp-util');
-let rename     = require('gulp-rename');
-let source     = require('vinyl-source-stream');
-let stylus     = require('gulp-stylus');
-let uglify     = require('gulp-uglify');
+import babelify   from 'babelify';
+import browserify from 'browserify';
+import buffer     from 'vinyl-buffer';
+import del        from 'del';
+import gulp       from 'gulp';
+import gutil      from 'gulp-util';
+import rename     from 'gulp-rename';
+import source     from 'vinyl-source-stream';
+import stylus     from 'gulp-stylus';
+import uglify     from 'gulp-uglify';
 
 gulp.task('default', ['build']);
 
-gulp.task('clean', function () {
+gulp.task('clean', () => {
   return del([
     'dist/**/*',
   ]);
@@ -19,7 +19,7 @@ gulp.task('clean', function () {
 
 gulp.task('default', ['build']);
 
-gulp.task('stylus', function () {
+gulp.task('stylus', () => {
   gulp.src('src/styles/youtify.styl')
     .pipe(stylus({
         compress: gutil.env.dist
@@ -27,11 +27,15 @@ gulp.task('stylus', function () {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('browserify', function () {
+gulp.task('browserify', () => {
   return browserify({
       entries: 'src/index.js',
       debug: !gutil.env.dist
     })
+    .transform(babelify.configure({
+      presets: ['es2015'],
+      plugins: ['transform-es2015-modules-commonjs']
+    }))
     .bundle()
     .pipe(source('youtify.js'))
     .pipe(buffer())
@@ -39,7 +43,7 @@ gulp.task('browserify', function () {
     .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('copy-files', function () {
+gulp.task('copy-files', () => {
   return gulp.src([
       'src/manifest.json',
       'src/inject.js',
@@ -48,12 +52,12 @@ gulp.task('copy-files', function () {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('license', function () {
+gulp.task('license', () => {
   return gulp.src('LICENSE')
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('watch', ['build'], function () {
+gulp.task('watch', ['build'], () => {
   gulp.watch([
     '*',
     'src/*.json',

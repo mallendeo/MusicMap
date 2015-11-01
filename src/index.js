@@ -1,11 +1,11 @@
-'use strict';
-let YoutifyHandler = require('./lib/youtify-handler');
+import { YoutifyHandler } from './lib/youtify-handler';
+import { ytRegex }        from './lib/util';
 
 new YoutifyHandler();
 
 // override XMLHttpRequest
-let send = XMLHttpRequest.prototype.send;
-XMLHttpRequest.prototype.send = function() {
+let send = window.XMLHttpRequest.prototype.send;
+window.XMLHttpRequest.prototype.send = function() {
   let callback = this.onreadystatechange;
   this.onreadystatechange = function() {
     if (this.readyState == 4) {

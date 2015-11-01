@@ -1,5 +1,4 @@
 'use strict';
-
 let hostname = document.location.hostname;
 let hash = document.location.hash;
 
