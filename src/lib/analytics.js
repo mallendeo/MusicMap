@@ -1,8 +1,13 @@
-import env from '../.env.json';
+import env       from '../.env.json';
+import * as util from './util';
 
 export default class Analytics {
   constructor () {
     this.loadGoogleAnalytics();
+  }
+
+  getYoutubeId() {
+    return (util.extractVideoId(document.location.href) || '');
   }
 
   loadGoogleAnalytics () {
@@ -25,7 +30,7 @@ export default class Analytics {
       'hitType': 'event',
       'eventCategory': 'button-clicked',
       'eventAction': 'click',
-      'eventLabel': document.location.href
+      'eventLabel': this.getYoutubeId()
     });
   }
 
@@ -34,7 +39,7 @@ export default class Analytics {
       'hitType': 'event',
       'eventCategory': 'song-info',
       'eventAction': 'info',
-      'eventLabel': document.location.href + ' - ' + spotifyUri
+      'eventLabel': this.getYoutubeId() + ' - ' + spotifyUri
     });
   }
 
@@ -43,7 +48,7 @@ export default class Analytics {
       'hitType': 'event',
       'eventCategory': 'song-not-found',
       'eventAction': 'info',
-      'eventLabel': document.location.href
+      'eventLabel': this.getYoutubeId()
     });
   }
 }

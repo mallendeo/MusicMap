@@ -64,10 +64,8 @@ export default class YoutifyHandler {
     }
 
     this.youtify.search(videoTitle, 'track', util.getCountryCode()).then(data => {
-
-
       if (data.tracks.items && data.tracks.items[0]) {
-        this.ga.sendSongInfoGa(data.tracks.items.uri || 'not found');
+        this.ga.sendSongInfoGa(data.tracks.items.uri);
         button.classList.remove('disabled');
         button.href = data.tracks.items[0].uri;
         this.updateButton(button, 'Open in Spotify');

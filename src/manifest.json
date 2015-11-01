@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "Youtify (Youtube to Spotify)",
-  "version": "0.0.7",
+  "name": "Youtify (YouTube to Spotify)",
+  "version": "0.0.8",
   "description": "Open the current YouTube song in Spotify",
   "author": "mallendeo",
   "icons": {
@@ -12,16 +12,14 @@
   "content_scripts": [
     {
       "matches": [
-        "*://*.youtube.com/**",
-        "*://open.spotify.com/**"
+        "*://*.youtube.com/**"
       ],
       "js": ["inject.js"]
     }
   ],
   "content_security_policy": "script-src 'self' https://www.google-analytics.com; object-src 'self'",
   "permissions": [
-    "*://*.youtube.com/**",
-    "*://open.spotify.com/**"
+    "*://*.youtube.com/**"
   ],
   "web_accessible_resources": [
     "youtify.js",
