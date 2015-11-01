@@ -1,6 +1,6 @@
 {
   "name": "youtify",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha test/**/*.js --compilers js:babel-core/register"
   },
@@ -28,8 +28,7 @@
     "vinyl-source-stream": "~1.1.0"
   },
   "dependencies": {
-    "bluebird": "^3.0.2",
-    "gulp-uglify": "^1.4.2",
+    "dexie": "^1.2.0",
     "superagent": "~1.4.0"
   }
 }
