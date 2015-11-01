@@ -1,14 +1,15 @@
 import Youtify   from './youtify';
 import * as util from './util';
 import env       from '../.env.json';
-import Database  from './database';
+import Analytics from './analytics';
+//import Database  from './database';
 
 let hostname = document.location.hostname;
 
 export default class YoutifyHandler {
 
   constructor () {
-    this.db = new Database();
+    //this.db = new Database();
 
     this.youtify = new Youtify({
       redirectUri: env.REDIRECT_URI,
@@ -21,24 +22,13 @@ export default class YoutifyHandler {
       return;
     }
 
-    this.loadGoogleAnalytics();
+    this.ga = new Analytics();
     this.loadYoutify();
-  }
-
-  loadGoogleAnalytics () {
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', env.G_ANALYTICS_CODE, 'auto');
-    ga('set', 'checkProtocolTask', () => {});
-    ga('require', 'displayfeatures');
   }
 
   loadYoutify () {
     if (!document.location.href.match(util.ytRegex)) return;
-    ga('send', 'pageview');
+    this.ga.sendPageView();
 
     let videoTitle = document.querySelector('#eow-title').textContent,
         songInfo = this.youtify.getInfoFromTitle(videoTitle),
@@ -74,17 +64,20 @@ export default class YoutifyHandler {
     }
 
     this.youtify.search(videoTitle, 'track', util.getCountryCode()).then(data => {
+
+
       if (data.tracks.items && data.tracks.items[0]) {
+        this.ga.sendSongInfoGa(data.tracks.items.uri || 'not found');
         button.classList.remove('disabled');
         button.href = data.tracks.items[0].uri;
         this.updateButton(button, 'Open in Spotify');
         button.setAttribute('title', videoTitle);
-        console.log(data);
         button.addEventListener('click', () => {
           document.querySelector('.video-stream').pause();
           this.sendButtonClickGa(data.tracks.items[0].uri);
         });
       } else {
+        this.ga.sendSongNotFoundGa();
         this.updateButton(button, 'Not available in Spotify');
       }
     });
@@ -107,14 +100,5 @@ export default class YoutifyHandler {
   updateButton (button, text) {
     button.innerHTML = text;
     return button;
-  }
-
-  sendButtonClickGa (button, text) {
-    ga('send', {
-      'hitType': 'event',
-      'eventCategory': 'button-clicked',
-      'eventAction': 'click',
-      'eventLabel': document.location.href
-    });
   }
 }
