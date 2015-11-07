@@ -1,6 +1,6 @@
 {
   "name": "youtify",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha test/**/*.js --compilers js:babel-core/register"
   },
