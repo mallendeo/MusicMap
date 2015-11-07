@@ -1,5 +1,3 @@
-import request from 'superagent';
-
 const SPOTIFY_URI = 'https://api.spotify.com/v1';
 
 export default class Youtify {
@@ -17,14 +15,9 @@ export default class Youtify {
           url += '&q=' + encodeURIComponent(text);
           url += type ? '&type=' + type : '';
 
-      request(url).end((err, res) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(res.body);
-      });
+      fetch(url).then(res => res.json()).then(data => {
+        resolve(data);
+      }).catch(err => reject);
     });
   }
 
@@ -125,7 +118,7 @@ export default class Youtify {
     return songInfo;
   }
 
-  getToken (token, refresh) {
+  /*getToken (token, refresh) {
     return new Promise((resolve, reject) => {
       let req = request
         .post('https://accounts.spotify.com/api/token')
@@ -154,5 +147,5 @@ export default class Youtify {
         resolve(res.body);
       });
     });
-  }
+  }*/
 }

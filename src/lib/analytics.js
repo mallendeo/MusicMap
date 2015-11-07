@@ -6,7 +6,7 @@ export default class Analytics {
     this.loadGoogleAnalytics();
   }
 
-  getYoutubeId() {
+  getYoutubeId () {
     return (util.extractVideoId(document.location.href) || '');
   }
 
@@ -25,7 +25,7 @@ export default class Analytics {
     ga('send', 'pageview', '/');
   }
 
-  sendButtonClickGa () {
+  sendButtonClick () {
     ga('send', {
       'hitType': 'event',
       'eventCategory': 'button-clicked',
@@ -34,7 +34,7 @@ export default class Analytics {
     });
   }
 
-  sendSongInfoGa (spotifyUri) {
+  sendSongInfo (spotifyUri) {
     ga('send', {
       'hitType': 'event',
       'eventCategory': 'song-info',
@@ -43,7 +43,7 @@ export default class Analytics {
     });
   }
 
-  sendSongNotFoundGa (spotifyUri) {
+  sendSongNotFound (spotifyUri) {
     ga('send', {
       'hitType': 'event',
       'eventCategory': 'song-not-found',

@@ -65,17 +65,17 @@ export default class YoutifyHandler {
 
     this.youtify.search(videoTitle, 'track', util.getCountryCode()).then(data => {
       if (data.tracks.items && data.tracks.items[0]) {
-        this.ga.sendSongInfoGa(data.tracks.items[0].uri);
+        this.ga.sendSongInfo(data.tracks.items[0].uri);
         button.classList.remove('disabled');
         button.href = data.tracks.items[0].uri;
         this.updateButton(button, 'Open in Spotify');
         button.setAttribute('title', videoTitle);
-        button.addEventListener('click', () => {
+        button.addEventListener('mousedown', () => {
           document.querySelector('.video-stream').pause();
-          this.sendButtonClickGa(data.tracks.items[0].uri);
+          this.ga.sendButtonClick(data.tracks.items[0].uri);
         });
       } else {
-        this.ga.sendSongNotFoundGa();
+        this.ga.sendSongNotFound();
         this.updateButton(button, 'Not available in Spotify');
       }
     });
