@@ -45,16 +45,19 @@ export default class Youtify {
 
   getInfoFromTitle (videoTitle) {
 
-    /**
-     * FIXME use correct regex instead
-     */
+    let songInfo = {
+      title: null,
+      artist: null,
+      remix: null
+    }
 
     // Include remix/mix/version in the search terms and
     // remove common words that may interfere with search results
-    let remixRegex = /[[(]([^[()\]]*?(?:mix|version)[^[()\]]*?)[\])]/ig;
+    let remixRegex = /[[({]([^[()\]]*?(?:mix|version|mashup)[^[()\]]*?)[})\]]/ig;
     let remix = remixRegex.exec(videoTitle);
         remix = remix && remix[1] ? remix[1] : '';
-        remix = remix.replace(/\s((?:dub|drum|chill)step|trap)\s/i, ' ');
+        remix = remix.replace(/\b(\w*?step|trap|the)\b/i, ' ');
+        remix = remix.trim().replace(/\s{1,}/g, ' ');
 
     if (remix.match(/.*?of{1,2}icial.*?/ig)) {
       remix = '';
@@ -64,7 +67,7 @@ export default class Youtify {
 
       // Remove all brackets content and special characters
       .replace(/\w\.{2,4}/ig, '  ')
-      .replace(/[\[\(].*?[\]\)]/ig, '  ')
+      .replace(/[[({].*?[})\]]/ig, '  ')
       .replace(/[:_!\&®]+?/g, '  ')
       .replace(/[.,'"]+?/g, '')
 
@@ -95,11 +98,9 @@ export default class Youtify {
     let splitKeywords = keywords.join(' ').split(/\s-(.+)?/);
     splitKeywords = splitKeywords.map(s => { return s.trim(); });
 
-    let songInfo = {
-      artist: splitKeywords[0] || '',
-      title: splitKeywords[1] || '',
-      remix: ''
-    };
+    songInfo.artist = splitKeywords[0] || '';
+    songInfo.title = splitKeywords[1] || '';
+    songInfo.remix = '';
 
     // Check if artist is in both, the song title
     // and the remix match, and if not merge the remix

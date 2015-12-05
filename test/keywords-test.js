@@ -1,9 +1,9 @@
-import assert      from 'assert';
-import keywords    from './keywords.json';
-import { Youtify } from '../src/lib/youtify';
-import should      from 'should';
+import assert   from 'assert';
+import keywords from './keywords.json';
+import Youtify  from '../src/lib/youtify';
+import should   from 'should';
 
-let youtify = new Youtify();
+let youtify = new Youtify({});
 
 describe('Keywords', () => {
   describe('check keywords', () => {
