@@ -43,28 +43,8 @@ export default class Youtify {
     return spotifyUrl;
   }
 
-  getInfoFromTitle (videoTitle) {
-
-    let songInfo = {
-      title: null,
-      artist: null,
-      remix: null
-    }
-
-    // Include remix/mix/version in the search terms and
-    // remove common words that may interfere with search results
-    let remixRegex = /[[({]([^[()\]]*?(?:mix|version|mashup)[^[()\]]*?)[})\]]/ig;
-    let remix = remixRegex.exec(videoTitle);
-        remix = remix && remix[1] ? remix[1] : '';
-        remix = remix.replace(/\b(\w*?step|trap|the)\b/i, ' ');
-        remix = remix.trim().replace(/\s{1,}/g, ' ');
-
-    if (remix.match(/.*?of{1,2}icial.*?/ig)) {
-      remix = '';
-    }
-
-    let keywords = videoTitle
-
+  cleanTitle (title) {
+    return title
       // Remove all brackets content and special characters
       .replace(/\w\.{2,4}/ig, '  ')
       .replace(/[[({].*?[})\]]/ig, '  ')
@@ -83,6 +63,31 @@ export default class Youtify {
       .replace(/\s+?(ft|feat(uring)?|hd|of{1,2}icial\w*|exclusiv[eo]|v[ií]deo\w*)\s*?/ig, ' ')
       .trim()
       .split(/\s+/g);
+  }
+
+  getInfoFromTitle (videoTitle) {
+
+    let songInfo = {
+      title: null,
+      artist: null,
+      remix: null
+    }
+
+    let keywords = this.cleanTitle(videoTitle);
+
+    // Include remix/mix/version in the search terms and
+    // remove common words that may interfere with search results
+    let remixRegex = /[[({]([^[()\]]*?(?:mix|version|mashup)[^[()\]]*?)[})\]]/ig;
+    let remix = remixRegex.exec(videoTitle);
+        remix = remix && remix[1] ? remix[1] : '';
+        remix = remix.replace(/\b(\w*?step|trap|the)\b/i, ' ');
+        remix = remix.replace(/\d{4}/g, '');
+        remix = remix.replace(/version|mashup/i, '');
+        remix = remix.trim().replace(/\s{1,}/g, ' ');
+
+    if (remix.match(/.*?of{1,2}icial.*?/ig)) {
+      remix = '';
+    }
 
     let gotHyphen = false;
 
