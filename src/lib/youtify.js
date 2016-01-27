@@ -49,7 +49,7 @@ export default class Youtify {
       .replace(/\w\.{2,4}/ig, '  ')
       .replace(/[[({].*?[})\]]/ig, '  ')
       .replace(/[:_!\&®]+?/g, '  ')
-      .replace(/[.,'"]+?/g, '')
+      .replace(/[.,"]+?/g, '')
 
       // Remove all single characters but 'I' and hyphens
       .replace(/\s(?![I-\s]).\s/ig, '  ')
