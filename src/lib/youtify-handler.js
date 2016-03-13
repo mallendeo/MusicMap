@@ -30,14 +30,17 @@ export default class YoutifyHandler {
     if (!document.location.href.match(util.ytRegex)) return;
     this.ga.sendPageView();
 
-    let videoTitle = document.querySelector('#eow-title').textContent,
-        songInfo = this.youtify.getInfoFromTitle(videoTitle),
-        categoryElems = [].slice.call(document.querySelectorAll('.watch-info-tag-list li a')),
-        descriptionElem = document.querySelector('#eow-description'),
-        description = descriptionElem.innerHTML,
-        guessYouTubeMusicVideo = this.youtify.guessYouTubeMusicVideo(description),
-        button = this.createButton(['youtify-open-button','disabled']),
-        spotifyUrl = this.youtify.getSpotifyUrlFromDescription(descriptionElem);
+    let videoTitleElem = document.querySelector('#eow-title');
+    if (!videoTitleElem) return false;
+
+    let videoTitle             = videoTitleElem.textContent;
+    let songInfo               = this.youtify.getInfoFromTitle(videoTitle);
+    let categoryElems          = [].slice.call(document.querySelectorAll('.watch-info-tag-list li a'));
+    let descriptionElem        = document.querySelector('#eow-description');
+    let description            = descriptionElem.innerHTML;
+    let guessYouTubeMusicVideo = this.youtify.guessYouTubeMusicVideo(description);
+    let button                 = this.createButton(['youtify-open-button', 'disabled']);
+    let spotifyUrl             = this.youtify.getSpotifyUrlFromDescription(descriptionElem);
 
     let isMusicCategory = categoryElems.some(elem => {
       return elem.getAttribute('data-ytid') === 'UC-9-kyTW8ZkZNDHQJ6FgpwQ';

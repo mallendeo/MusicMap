@@ -71,7 +71,7 @@ export default class Youtify {
       title: null,
       artist: null,
       remix: null
-    }
+    };
 
     let keywords = this.cleanTitle(videoTitle);
 
