@@ -1,14 +1,7 @@
 /* global ga */
-
-import env from '../.env.json';
-import * as util from './util';
-
-export default function Analytics() {
-  function getYoutubeId() {
-    return (util.extractVideoId(document.location.href) || '');
-  }
-
+export default function Analytics(code) {
   function loadGoogleAnalytics() {
+    /* eslint-disable */
     (function (i, s, o, g, r, a, m) {
       i['GoogleAnalyticsObject'] = r;
       i[r] = i[r] || function () {
@@ -20,8 +13,9 @@ export default function Analytics() {
       a.src = g;
       m.parentNode.insertBefore(a, m);
     })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    /* eslint-enable */
 
-    ga('create', env.G_ANALYTICS_CODE, 'auto');
+    ga('create', code, 'auto');
     ga('set', 'checkProtocolTask', () => {});
     ga('require', 'displayfeatures');
   }
@@ -36,19 +30,19 @@ export default function Analytics() {
   }
 
   function sendPageView() {
-    ga('send', 'pageview', '/');
+    ga('send', 'pageview', window.location.pathname);
   }
 
-  function sendButtonClick() {
-    sendEvent('button-clicked', 'click', getYoutubeId());
+  function sendButtonClick(id, spotifyUri) {
+    sendEvent('button-clicked', 'click', `${id} - ${spotifyUri}`);
   }
 
-  function sendSongInfo(spotifyUri) {
-    sendEvent('song-info', 'info', `${getYoutubeId()} - ${spotifyUri}`);
+  function sendSongInfo(id, spotifyUri) {
+    sendEvent('song-info', 'info', `${id} - ${spotifyUri}`);
   }
 
-  function sendSongNotFound() {
-    sendEvent('song-not-found', 'info', getYoutubeId());
+  function sendSongNotFound(id) {
+    sendEvent('song-not-found', 'info', id);
   }
 
   loadGoogleAnalytics();

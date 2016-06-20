@@ -1,10 +1,7 @@
-import youtify from './youtify';
-import * as util from './util';
-import analytics from './analytics';
+import youtubeParser from './parsers/youtube';
+import spotify from './providers/spotify';
 
-const hostname = document.location.hostname;
-
-export default function YoutifyHandler() {
+export default function Tunemap() {
   function createButton(
     classList,
     text,
@@ -41,8 +38,11 @@ export default function YoutifyHandler() {
     };
   }
 
-  function loadYoutify(ga) {
-    if (!document.location.href.match(util.ytRegex)) return;
+  function load(ga) {
+    const youtube = youtubeParser();
+    const ytRegex = /https?:\/\/www\.youtube\.com\/watch\?v=.*/g;
+    if (!document.location.href.match(ytRegex)) return;
+    const videoId = youtube.extractVideoId(document.location.href);
     ga.sendPageView();
 
     const videoTitleElem = document.querySelector('#eow-title');
@@ -50,13 +50,13 @@ export default function YoutifyHandler() {
 
     let videoTitle = videoTitleElem.textContent;
 
-    const songInfo = youtify.getInfoFromTitle(videoTitle);
+    const songInfo = youtube.getInfoFromTitle(videoTitle);
     const categoryElems = [].slice.call(document.querySelectorAll('.watch-info-tag-list li a'));
     const descriptionElem = document.querySelector('#eow-description');
     const description = descriptionElem.innerHTML;
-    const guessYouTubeMusicVideo = youtify.guessYouTubeMusicVideo(description);
-    const button = createButton(['youtify-open-button', 'disabled']);
-    const spotifyUrl = youtify.getSpotifyUrlFromDescription(descriptionElem);
+    const guessYouTubeMusicVideo = youtube.guessYouTubeMusicVideo(description);
+    const button = createButton(['tunemap-open-button', 'disabled']);
+    const spotifyUrl = youtube.getSpotifyUrlFromDescription(descriptionElem);
 
     const isMusicCategory = categoryElems.some(elem =>
       elem.getAttribute('data-ytid') === 'UC-9-kyTW8ZkZNDHQJ6FgpwQ');
@@ -64,7 +64,7 @@ export default function YoutifyHandler() {
     videoTitle = [songInfo.artist, songInfo.title, songInfo.remix].join(' ');
     button.disable('Loading...');
 
-    if (youtify.isMix(description)) {
+    if (youtube.isMix(description)) {
       button.disable('Mix not available in Spotify');
       if (!spotifyUrl) return;
 
@@ -77,31 +77,27 @@ export default function YoutifyHandler() {
       return;
     }
 
-    youtify
-      .search(videoTitle, 'track', util.getCountryCode())
+    spotify()
+      .search(videoTitle, 'track', youtube.getCountryCode())
       .then(data => {
         if (data.tracks.items && data.tracks.items[0]) {
-          ga.sendSongInfo(data.tracks.items[0].uri);
+          ga.sendSongInfo(videoId, data.tracks.items[0].uri);
+
           button.enable('Open in Spotify', data.tracks.items[0].uri);
           button.elem.addEventListener('mousedown', () => {
             document.querySelector('.video-stream').pause();
-            ga.sendButtonClick(data.tracks.items[0].uri);
+            ga.sendButtonClick(videoId, data.tracks.items[0].uri);
           });
-        } else {
-          ga.sendSongNotFound();
-          button.disable('Not available in Spotify');
+
+          return;
         }
+
+        ga.sendSongNotFound(videoId);
+        button.disable('Not available in Spotify');
       });
   }
 
-  function init() {
-    if (hostname === 'open.spotify.com') {
-      document.body.classList.add('youtify-player');
-      return;
-    }
-
-    loadYoutify(analytics());
-  }
-
-  init();
+  return {
+    load,
+  };
 }

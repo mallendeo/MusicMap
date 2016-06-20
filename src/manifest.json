@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Youtify (YouTube to Spotify)",
+  "name": "Tunemap (YouTube to Spotify)",
   "version": "0.1.2",
   "description": "Open the current YouTube song in Spotify",
   "author": "mallendeo",
@@ -14,8 +14,8 @@
       "matches": [
         "*://*.youtube.com/**"
       ],
-      "js": ["youtify.js"],
-      "css": ["youtify.css"]
+      "js": ["tunemap.js"],
+      "css": ["tunemap.css"]
     }
   ],
   "content_security_policy": "script-src 'self' https://www.google-analytics.com; object-src 'self'",
@@ -23,7 +23,7 @@
     "*://*.youtube.com/**"
   ],
   "web_accessible_resources": [
-    "youtify.js",
-    "youtify.css"
+    "tunemap.js",
+    "tunemap.css"
   ]
 }
