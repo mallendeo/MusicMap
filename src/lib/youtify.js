@@ -93,9 +93,8 @@ function getInfoFromTitle(videoTitle) {
   songInfo.title = splitKeywords[1] || '';
   songInfo.remix = '';
 
-  // Check if artist is in both, the song title
-  // and the remix match, and if not merge the remix
-  // with the search terms.
+  // Check if artist is in both, the song title and the remix match,
+  // and if not, merge the remix with the search terms.
   // Example here https://www.youtube.com/watch?v=OOevVQwQ-LM
   let remixArtist = remix.split(/\s+/g);
   remixArtist = remixArtist[0] ? remixArtist[0] : remixArtist;
