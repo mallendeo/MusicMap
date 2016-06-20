@@ -1,18 +1,9 @@
 {
-  "rules": {
-    "quotes": [
-      2,
-      "single"
-    ],
-    "semi": [
-      2,
-      "always"
-    ],
-    "strict": 0
-  },
-  "parser": "babel-eslint",
   "env": {
-    "node": true,
-    "browser": true
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "node": true
   },
+  "extends": "airbnb"
 }
