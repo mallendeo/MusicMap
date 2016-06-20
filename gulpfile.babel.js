@@ -38,7 +38,6 @@ gulp.task('browserify', () =>
 gulp.task('copy-files', () =>
   gulp.src([
     'src/manifest.json',
-    'src/inject.js',
     'src/assets/**/*',
   ], { base: 'src' })
   .pipe(gulp.dest('dist')));
@@ -51,7 +50,6 @@ gulp.task('watch', ['build'], () => {
   gulp.watch([
     '*',
     'src/*.json',
-    'src/inject.js',
     'src/assets/*',
   ], ['copy-files']);
   gulp.watch('src/**/*.js', ['browserify']);

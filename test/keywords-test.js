@@ -1,18 +1,11 @@
-import assert   from 'assert';
+import youtify from '../src/lib/youtify';
 import keywords from './keywords.json';
-import Youtify  from '../src/lib/youtify';
-import should   from 'should';
+import test from 'ava';
 
-let youtify = new Youtify({});
-
-describe('Keywords', () => {
-  describe('check keywords', () => {
-    it('should match the title keywords', () => {
-      for (let i = 0; i < keywords.length; i++) {
-        let songInfo = youtify.getInfoFromTitle(keywords[i].title);
-        songInfo = [songInfo.artist, songInfo.title, songInfo.remix].join(' ').trim();
-        songInfo.should.equal(keywords[i].keywords);
-      }
-    });
-  });
+test('[Youtify] Should match the keywords', t => {
+  for (let i = 0; i < keywords.length; i++) {
+    let songInfo = youtify.getInfoFromTitle(keywords[i].title);
+    songInfo = [songInfo.artist, songInfo.title, songInfo.remix].join(' ').trim();
+    t.is(songInfo, keywords[i].keywords);
+  }
 });

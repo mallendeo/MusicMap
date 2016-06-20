@@ -1,13 +1,12 @@
-import YoutifyHandler from './lib/youtify-handler';
-import { ytRegex }    from './lib/util';
+import handle from './lib/youtify-handler';
 
 let lastTitle = '';
-setInterval(_ => {
-  let titleElem = document.querySelector('#eow-title');
+setInterval(() => {
+  const titleElem = document.querySelector('#eow-title');
   if (!titleElem) return;
 
   if (lastTitle !== titleElem.textContent) {
-    new YoutifyHandler();
+    handle();
     lastTitle = titleElem.textContent;
   }
 }, 100);
