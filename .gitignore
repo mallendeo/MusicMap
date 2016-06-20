@@ -12,7 +12,7 @@ pids
 node_modules
 
 .DS_Store
-.env.json
+.env.js
 youtify.min.css
 youtify.min.js
 dist/
