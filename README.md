@@ -10,12 +10,12 @@ Open current YouTube song video in Spotify
     cd Youtify
     npm install
     # Edit and rename .env.example.json to .env.json
-    gulp build --dist
+    npm run build
 
 ## Test
 
     npm test
-    
+
 ## License
 
 GNU GENERAL PUBLIC LICENSE v2
