@@ -18,6 +18,12 @@
       "css": ["tunemap.css"]
     }
   ],
+  "applications": {
+    "gecko": {
+      "id": "tunemap@mozilla.org",
+      "strict_min_version": "45.0"
+    }
+  },
   "content_security_policy": "script-src 'self' https://www.google-analytics.com; object-src 'self'",
   "permissions": [
     "*://*.youtube.com/**"

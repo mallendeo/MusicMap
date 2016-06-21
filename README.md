@@ -2,12 +2,12 @@
 Open current YouTube song video in Spotify
 
 ## Install
-[Youtify: Chrome Store](https://chrome.google.com/webstore/detail/youtify/hkcmkfpmieckdagpoifmeieihclpphbg?hl=en)
+[Tunemap: Chrome Store](https://chrome.google.com/webstore/detail/youtify/hkcmkfpmieckdagpoifmeieihclpphbg?hl=en)
 
 ## Build
 
-    git clone https://github.com/mallendeo/Youtify.git
-    cd Youtify
+    git clone https://github.com/mallendeo/Tunemap.git
+    cd Tunemap
     npm install
     # Edit and rename .env.example.json to .env.json
     npm run build
