@@ -45,26 +45,21 @@ export default function Tunemap() {
     const videoId = youtube.extractVideoId(document.location.href);
     ga.sendPageView();
 
-    const videoTitleElem = document.querySelector('#eow-title');
-    if (!videoTitleElem) return;
-
-    let videoTitle = videoTitleElem.textContent;
+    let videoTitle = document.querySelector('#eow-title').textContent;
+    if (!videoTitle) return;
 
     const songInfo = youtube.getInfoFromTitle(videoTitle);
-    const categoryElems = [].slice.call(document.querySelectorAll('.watch-info-tag-list li a'));
-    const descriptionElem = document.querySelector('#eow-description');
-    const description = descriptionElem.innerHTML;
-    const guessYouTubeMusicVideo = youtube.guessYouTubeMusicVideo(description);
+    const description = document.querySelector('#eow-description');
     const button = createButton(['tunemap-open-button', 'disabled']);
-    const spotifyUrl = youtube.getSpotifyUrlFromDescription(descriptionElem);
+    const spotifyUrl = youtube.searchSpotifyUrls(description);
 
-    const isMusicCategory = categoryElems.some(elem =>
-      elem.getAttribute('data-ytid') === 'UC-9-kyTW8ZkZNDHQJ6FgpwQ');
+    const isMusicCategory = [...document.querySelectorAll('.watch-info-tag-list li a')]
+      .some(elem => elem.getAttribute('data-ytid') === 'UC-9-kyTW8ZkZNDHQJ6FgpwQ');
 
     videoTitle = [songInfo.artist, songInfo.title, songInfo.remix].join(' ');
     button.disable('Loading...');
 
-    if (youtube.isMix(description)) {
+    if (youtube.isMix(description.innerHTML)) {
       button.disable('Mix not available in Spotify');
       if (!spotifyUrl) return;
 
@@ -72,7 +67,7 @@ export default function Tunemap() {
       return;
     }
 
-    if (!isMusicCategory && !guessYouTubeMusicVideo) {
+    if (!isMusicCategory && !youtube.maybeIsMusic(description.innerHTML)) {
       button.disable('Not in music category');
       return;
     }

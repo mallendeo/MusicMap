@@ -1,4 +1,5 @@
-# Tunemap
+# ![Tunemap](https://raw.githubusercontent.com/mallendeo/Tunemap/master/src/assets/icon48.png) Tunemap
+
 Map songs from different sites with your favorite music service.
 Now only can open YouTube songs in Spotify
 

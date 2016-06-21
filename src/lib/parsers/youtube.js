@@ -13,7 +13,7 @@ export default function Youtube() {
     return getRegexValue(/'INNERTUBE_CONTEXT_GL':\s*"(\w{2})"/ig, html);
   }
 
-  function guessYouTubeMusicVideo(description) {
+  function maybeIsMusic(description) {
     return description.match(/soundcloud|spotify|itunes|bandcamp/igm);
   }
 
@@ -21,7 +21,7 @@ export default function Youtube() {
     return description.match(/track\s?list/igm);
   }
 
-  function getSpotifyUrlFromDescription(description) {
+  function searchSpotifyUrls(description) {
     const elems = description.children;
     let spotifyUrl = false;
     for (let i = 0; i < elems.length; i++) {
@@ -117,9 +117,9 @@ export default function Youtube() {
   return {
     extractVideoId,
     getCountryCode,
-    guessYouTubeMusicVideo,
+    maybeIsMusic,
     isMix,
-    getSpotifyUrlFromDescription,
+    searchSpotifyUrls,
     cleanTitle,
     getInfoFromTitle,
   };
