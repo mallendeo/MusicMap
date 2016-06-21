@@ -27,13 +27,14 @@
   "author": "@mallendeo",
   "devDependencies": {
     "ava": "^0.15.2",
+    "browserify": "^13.0.1",
     "eslint": "^2.13.0",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-import": "^1.8.1",
     "eslint-plugin-jsx-a11y": "^1.5.3",
     "eslint-plugin-react": "^5.2.2",
-    "ncp": "^2.0.0",
-    "rollup-plugin-uglify": "^1.0.0",
-    "uglify-js": "^2.6.3"
+    "stylus": "^0.54.5",
+    "uglify-js": "^2.6.3",
+    "watch": "^0.19.1"
   }
 }
