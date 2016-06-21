@@ -1,5 +1,5 @@
 {
-  "name": "tunemap",
+  "name": "musicmap",
   "version": "0.1.2",
   "scripts": {
     "test": "ava --verbose",
@@ -8,11 +8,11 @@
     "copy:files": "rsync -avz src/ dist/ --exclude '*.js' --exclude '.*' --exclude 'lib' --exclude 'styles'",
     "copy:license": "cp LICENSE dist/",
     "copy": "npm run copy:files & npm run copy:license",
-    "build:css": "stylus --compress src/styles/main.styl -o dist/tunemap.css",
-    "build:js": "browserify src/main.js -o dist/tunemap.js -t babelify -t uglifyify",
+    "build:css": "stylus --compress src/styles/main.styl -o dist/musicmap.css",
+    "build:js": "browserify src/main.js -o dist/musicmap.js -t babelify -t uglifyify",
     "build": "npm run clean && npm run copy & npm run build:css & npm run build:js",
     "watch:css": "npm run build:css -- -w",
-    "watch:js": "watchify src/main.js -v -o dist/tunemap.js -t babelify -t uglifyify --debug",
+    "watch:js": "watchify src/main.js -v -o dist/musicmap.js -t babelify -t uglifyify --debug",
     "watch": "npm run clean && npm run copy & npm run watch:css & npm run watch:js"
   },
   "ava": {
@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mallendeo/Tunemap.git"
+    "url": "https://github.com/mallendeo/MusicMap.git"
   },
   "author": "@mallendeo",
   "devDependencies": {

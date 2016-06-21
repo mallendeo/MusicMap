@@ -1,7 +1,7 @@
 import youtubeParser from './parsers/youtube';
 import spotify from './providers/spotify';
 
-export default function Tunemap() {
+export default function MusicMap() {
   function createButton(
     classList,
     text,
@@ -50,7 +50,7 @@ export default function Tunemap() {
 
     const songInfo = youtube.getInfoFromTitle(videoTitle);
     const description = document.querySelector('#eow-description');
-    const button = createButton(['tunemap-open-button', 'disabled']);
+    const button = createButton(['musicmap-open-button', 'disabled']);
     const spotifyUrl = youtube.searchSpotifyUrls(description);
 
     const isMusicCategory = [...document.querySelectorAll('.watch-info-tag-list li a')]

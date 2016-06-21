@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "Tunemap",
-  "version": "0.1.2",
+  "name": "MusicMap",
+  "version": "0.2.0",
   "description": "Map songs from different sites with your favorite music service",
   "author": "mallendeo",
   "icons": {
@@ -14,13 +14,13 @@
       "matches": [
         "*://*.youtube.com/**"
       ],
-      "js": ["tunemap.js"],
-      "css": ["tunemap.css"]
+      "js": ["musicmap.js"],
+      "css": ["musicmap.css"]
     }
   ],
   "applications": {
     "gecko": {
-      "id": "tunemap@mozilla.org",
+      "id": "musicmap@mozilla.org",
       "strict_min_version": "45.0"
     }
   },
@@ -29,7 +29,7 @@
     "*://*.youtube.com/**"
   ],
   "web_accessible_resources": [
-    "tunemap.js",
-    "tunemap.css"
+    "musicmap.js",
+    "musicmap.css"
   ]
 }

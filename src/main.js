@@ -1,4 +1,4 @@
-import tunemap from './lib/tunemap';
+import musicmap from './lib/musicmap';
 import analytics from './lib/analytics';
 import env from './.env.js';
 
@@ -9,7 +9,7 @@ setInterval(() => {
   if (!titleElem) return;
 
   if (lastTitle !== titleElem.textContent) {
-    tunemap().load(ga);
+    musicmap().load(ga);
     lastTitle = titleElem.textContent;
   }
 }, 100);
