@@ -9,9 +9,11 @@
     "copy:license": "cp LICENSE dist/",
     "copy": "npm run copy:files & npm run copy:license",
     "build:css": "stylus --compress src/styles/main.styl -o dist/tunemap.css",
-    "build:js": "browserify src/main.js -t [ babelify ] | uglifyjs --compress --mangle -o dist/tunemap.js",
+    "build:js": "browserify src/main.js -o dist/tunemap.js -t babelify -t uglifyify",
     "build": "npm run clean && npm run copy & npm run build:css & npm run build:js",
-    "watch": "watch 'npm run build' ./src"
+    "watch:css": "npm run build:css -- -w",
+    "watch:js": "watchify src/main.js -v -o dist/tunemap.js -t babelify -t uglifyify --debug",
+    "watch": "npm run clean && npm run copy & npm run watch:css & npm run watch:js"
   },
   "ava": {
     "babel": "inherit",
@@ -34,7 +36,7 @@
     "eslint-plugin-jsx-a11y": "^1.5.3",
     "eslint-plugin-react": "^5.2.2",
     "stylus": "^0.54.5",
-    "uglify-js": "^2.6.3",
-    "watch": "^0.19.1"
+    "uglifyify": "^3.0.2",
+    "watchify": "^3.7.0"
   }
 }
