@@ -1,6 +1,6 @@
 {
   "name": "musicmap",
-  "version": "0.1.2",
+  "version": "0.2.1",
   "scripts": {
     "test": "ava --verbose",
     "test:watch": "npm run test -- -w",

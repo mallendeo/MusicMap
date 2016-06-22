@@ -38,12 +38,10 @@ export default function MusicMap() {
     };
   }
 
-  function load(visitor) {
+  function load() {
     const youtube = youtubeParser();
     const ytRegex = /https?:\/\/www\.youtube\.com\/watch\?v=.*/g;
     if (!document.location.href.match(ytRegex)) return;
-    const videoId = youtube.extractVideoId(document.location.href);
-    visitor.sendPageView();
 
     let videoTitle = document.querySelector('#eow-title').textContent;
     if (!videoTitle) return;
@@ -76,18 +74,14 @@ export default function MusicMap() {
       .search(videoTitle, 'track', youtube.getCountryCode())
       .then(data => {
         if (data.tracks.items && data.tracks.items[0]) {
-          visitor.sendSongInfo(videoId, data.tracks.items[0].uri);
-
           button.enable('Open in Spotify', data.tracks.items[0].uri);
           button.elem.addEventListener('mousedown', () => {
             document.querySelector('.video-stream').pause();
-            visitor.sendButtonClick(videoId, data.tracks.items[0].uri);
           });
 
           return;
         }
 
-        visitor.sendSongNotFound(videoId);
         button.disable('Not available in Spotify');
       });
   }
