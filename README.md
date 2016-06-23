@@ -15,8 +15,6 @@ Now only can open YouTube songs in Spotify
     git clone https://github.com/mallendeo/MusicMap.git
     cd MusicMap
     npm install
-
-    # Edit and rename .env.example.json to .env.json
     npm run build
 
     # Watch

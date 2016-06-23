@@ -1,7 +1,8 @@
 import musicmap from './lib/musicmap';
 
 let lastTitle = '';
-setInterval(() => {
+
+function load() {
   const titleElem = document.querySelector('#eow-title');
   if (!titleElem) return;
 
@@ -9,4 +10,7 @@ setInterval(() => {
     musicmap().load();
     lastTitle = titleElem.textContent;
   }
-}, 100);
+}
+
+load();
+setInterval(load, 100);
